@@ -1,0 +1,19 @@
+{
+    "name": "anita/pay",
+    "description": "支付sdk，包含微信支付和支付宝支付",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anita",
+            "email": "1012653496@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php":">=5.6"
+    },
+    "autoload": {
+        "psr-4": {"Apay\\": "src/"}
+    }
+}
