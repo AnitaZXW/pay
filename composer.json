@@ -1,6 +1,12 @@
 {
     "name": "anita/pay",
     "description": "支付sdk，包含微信支付和支付宝支付",
+    "keywords": [
+        "yii",
+        "wxpay",
+        "alipay",
+        "vue"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
