@@ -2,7 +2,8 @@
 
 namespace Apay;
 
-use AlipayTradeWapPayRequest;
+use Apay\alipay\aop\Request\AlipayTradeWapPayRequest;
+use Apay\alipay\aop\AopClient;
 
 class Alipay
 {
@@ -74,5 +75,7 @@ class Alipay
 
 		//签名
 		$sysParams["sign"] = $this->aop->generateSign($sysParams, $this->signType);
+
+		return $sysParams;
 	}
 }
