@@ -2,12 +2,6 @@
 
 namespace Apay\alipay\aop\request;
 
-/**
- * ALIPAY API: alipay.trade.wap.pay request
- *
- * @author auto create
- * @since 1.0, 2016-11-17 11:46:00
- */
 class AlipayTradeWapPayRequest
 {
 	/** 
@@ -27,14 +21,8 @@ class AlipayTradeWapPayRequest
     private $timeExpress;
     private $totalAmount;
     private $sellerId;
-    private $productCode;
+    private $productCode = 'QUICK_WAP_PAY';
     private $bizContentarr = array();
-
-
-    public function __construct()
-    {
-        $this->bizContentarr['product_code'] = "QUICK_WAP_PAY";
-    }
 
     public function getBody()
     {
@@ -47,15 +35,15 @@ class AlipayTradeWapPayRequest
         $this->bizContentarr['body'] = $body;
     }
 
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
     public function setSubject($subject)
     {
         $this->subject = $subject;
         $this->bizContentarr['subject'] = $subject;
-    }
-
-    public function getSubject()
-    {
-        return $this->subject;
     }
 
     public function getOutTradeNo()
@@ -69,6 +57,17 @@ class AlipayTradeWapPayRequest
         $this->bizContentarr['out_trade_no'] = $outTradeNo;
     }
 
+    public function getTotalAmount()
+    {
+        return $this->totalAmount;
+    }
+
+    public function setTotalAmount($totalAmount)
+    {
+        $this->totalAmount = $totalAmount;
+        $this->bizContentarr['total_amount'] = $totalAmount;
+    }
+
     public function getProdCode()
     {
         return $this->productCode;
@@ -77,7 +76,7 @@ class AlipayTradeWapPayRequest
     public function setProductCode($productCode)
     {
         $this->productCode = $productCode;
-        $this->bizContentarr['productCode'] = $productCode;
+        $this->bizContentarr['product_code'] = $productCode;
     }
 
     public function setTimeExpress($timeExpress)
@@ -89,17 +88,6 @@ class AlipayTradeWapPayRequest
     public function getTimeExpress()
     {
         return $this->timeExpress;
-    }
-
-    public function setTotalAmount($totalAmount)
-    {
-        $this->totalAmount = $totalAmount;
-        $this->bizContentarr['total_amount'] = $totalAmount;
-    }
-
-    public function getTotalAmount()
-    {
-        return $this->totalAmount;
     }
 
     public function setSellerId($sellerId)
