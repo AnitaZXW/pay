@@ -1,12 +1,9 @@
 <?php
 
-namespace Apay\alipay\aop\request;
+namespace Apay\alipay\request;
 
-class AlipayTradeWapPayRequest
+class WapPay extends Common
 {
-	/** 
-	 * 手机网站支付接口2.0
-	 **/
 	private $bizContent;
     private $body;
     private $subject;
@@ -15,6 +12,18 @@ class AlipayTradeWapPayRequest
     private $totalAmount;
     private $sellerId;
     private $productCode = 'QUICK_WAP_PAY';
+    private $method = 'alipay.trade.wap.pay';
+
+    public function __construct($config)
+    {
+        $this->app_id = $config['app_id'];
+        $this->notify_url = $config['notify_url'];
+        $this->return_url = $config['return_url'];
+        $this->rsa_public_key = $config['rsa_public_key'];
+        $this->rsa_private_key = $config['rsa_private_key'];
+        $this->version = $config['version'];
+        $this->sign_type = $config['sign_type'];
+    }
 
     public function getBody()
     {
@@ -101,8 +110,22 @@ class AlipayTradeWapPayRequest
         return $this->bizContent;
     }
 
-	public function getApiMethodName()
-	{
-		return "alipay.trade.wap.pay";
-	}
+    public function getPayParams()
+    {
+        //组装系统参数
+        $params["app_id"] = $this->app_id;
+        $params["method"] = $this->method;
+        $params["version"] = $this->version;
+        $params["format"] = $this->format;
+        $params["sign_type"] = $this->sign_type;
+        $params["timestamp"] = date("Y-m-d H:i:s");
+        $params["notify_url"] = $this->notify_url;
+        $params["return_url"] = $this->return_url;
+        $params["charset"] = $this->charset;
+        $params['biz_content'] = $request->getBizContent();
+        
+        $params["sign"] = $this->generateSign($params, $this->signType);
+
+        return $params;
+    }
 }
