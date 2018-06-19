@@ -3,6 +3,7 @@
 namespace Apay\alipay;
 
 use Apay\alipay\request\WapPay;
+use Apay\alipay\request\Query;
 
 class AlipayComponents
 {

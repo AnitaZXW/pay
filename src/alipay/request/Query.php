@@ -10,8 +10,8 @@ class Query extends Common
 	private $bizContent;
 
     //订单详情
-    private $trade_no;
-    private $out_trade_no;
+    private $tradeNo;
+    private $outTradeNo;
 
     private $method = "alipay.trade.query";
 
@@ -42,14 +42,27 @@ class Query extends Common
 
     public function getBizContent()
     {
-        $parameter = array(
-            'out_trade_no' => $this->out_trade_no,
-            'trade_no' => $this->trade_no
+        $params = array(
+            'out_trade_no' => $this->outTradeNo,
         );
 
-        $this->bizContent = json_encode($parameter);
+        $this->bizContent = json_encode($params);
 
         return $this->bizContent;
     }
-    
+
+    public function getParams()
+    {
+        $params["app_id"] = $this->app_id;
+        $params["method"] = $this->method;
+        $params["version"] = $this->version;
+        $params["format"] = $this->format;
+        $params["sign_type"] = $this->sign_type;
+        $params["timestamp"] = date("Y-m-d H:i:s");
+        $params["charset"] = $this->charset;
+        $params['biz_content'] = $this->getBizContent();
+        
+        $params["sign"] = $this->generateSign($params, $this->sign_type);
+        return $params;
+    }
 }

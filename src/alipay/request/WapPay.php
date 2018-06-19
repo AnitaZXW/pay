@@ -105,7 +105,7 @@ class WapPay extends Common
         return $this->bizContent;
     }
 
-    public function getPayParams()
+    public function getParams()
     {
         //组装系统参数
         $params["app_id"] = $this->app_id;
