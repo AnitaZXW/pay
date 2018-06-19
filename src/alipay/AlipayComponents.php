@@ -10,6 +10,11 @@ class AlipayComponents
 
 	public function WapPay()
 	{
-		return new WapPay();
+		return new WapPay($this->config);
+	}
+
+	public function Query()
+	{
+		return new Query($this->config);
 	}
 }

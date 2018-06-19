@@ -4,7 +4,6 @@ namespace Apay\alipay\request;
 
 class WapPay extends Common
 {
-	private $bizContent;
     private $body;
     private $subject;
     private $outTradeNo;
@@ -12,17 +11,13 @@ class WapPay extends Common
     private $totalAmount;
     private $sellerId;
     private $productCode = 'QUICK_WAP_PAY';
+
+    private $bizContent;
     private $method = 'alipay.trade.wap.pay';
 
     public function __construct($config)
     {
-        $this->app_id = $config['app_id'];
-        $this->notify_url = $config['notify_url'];
-        $this->return_url = $config['return_url'];
-        $this->rsa_public_key = $config['rsa_public_key'];
-        $this->rsa_private_key = $config['rsa_private_key'];
-        $this->version = $config['version'];
-        $this->sign_type = $config['sign_type'];
+        parent::__construct($config);
     }
 
     public function getBody()
@@ -97,15 +92,15 @@ class WapPay extends Common
 
     public function getBizContent()
     {
-        $parameter = array(
+        $params = array(
             'body' => $this->body,
             'subject' => $this->subject,
-            'out_trade_no' => $this->out_trade_no,
-            'total_amount' => $this->total_amount,
-            'product_code' => $this->product_code,
+            'out_trade_no' => $this->outTradeNo,
+            'total_amount' => $this->totalAmount,
+            'product_code' => $this->productCode,
         );
 
-        $this->bizContent = json_encode($parameter);
+        $this->bizContent = json_encode($params);
 
         return $this->bizContent;
     }
@@ -122,9 +117,9 @@ class WapPay extends Common
         $params["notify_url"] = $this->notify_url;
         $params["return_url"] = $this->return_url;
         $params["charset"] = $this->charset;
-        $params['biz_content'] = $request->getBizContent();
+        $params['biz_content'] = $this->getBizContent();
         
-        $params["sign"] = $this->generateSign($params, $this->signType);
+        $params["sign"] = $this->generateSign($params, $this->sign_type);
 
         return $params;
     }
