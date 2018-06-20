@@ -56,4 +56,35 @@ class Curl
 		}
 	}
 
+	public static function getClientIp()
+	{
+		$s_client_ip = '';
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		{
+			$s_client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		elseif (isset($_SERVER['HTTP_X_REAL_IP']))
+		{
+			$s_client_ip = $_SERVER['HTTP_X_REAL_IP'];
+		}
+		elseif ($_SERVER['REMOTE_ADDR'])
+		{
+			$s_client_ip = $_SERVER['REMOTE_ADDR'];
+		}
+		elseif (getenv('REMOTE_ADDR'))
+		{
+			$s_client_ip = getenv('REMOTE_ADDR');
+		}
+		elseif (getenv('HTTP_CLIENT_IP'))
+		{
+			$s_client_ip = getenv('HTTP_CLIENT_IP');
+		}
+		else
+		{
+			$s_client_ip = 'unknown';
+		}
+		
+		return $s_client_ip;
+	}
+
 }
