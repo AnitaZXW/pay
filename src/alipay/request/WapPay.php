@@ -13,7 +13,6 @@ class WapPay extends Common
     private $productCode = 'QUICK_WAP_PAY';
 
     private $bizContent;
-    private $method = 'alipay.trade.wap.pay';
 
     public function __construct($config)
     {
@@ -105,11 +104,16 @@ class WapPay extends Common
         return $this->bizContent;
     }
 
-    public function getParams()
+    public function getApiMethodName()
+    {
+        return 'alipay.trade.wap.pay';
+    }
+
+    public function getPayParams()
     {
         //组装系统参数
         $params["app_id"] = $this->app_id;
-        $params["method"] = $this->method;
+        $params["method"] = $this->getApiMethodName();
         $params["version"] = $this->version;
         $params["format"] = $this->format;
         $params["sign_type"] = $this->sign_type;

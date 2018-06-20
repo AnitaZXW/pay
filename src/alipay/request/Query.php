@@ -13,8 +13,6 @@ class Query extends Common
     private $tradeNo;
     private $outTradeNo;
 
-    private $method = "alipay.trade.query";
-
     public function __construct($config)
     {
         parent::__construct($config);
@@ -51,10 +49,15 @@ class Query extends Common
         return $this->bizContent;
     }
 
+    public function getApiMethodName()
+    {
+        return 'alipay.trade.query';
+    }
+
     public function getParams()
     {
         $params["app_id"] = $this->app_id;
-        $params["method"] = $this->method;
+        $params["method"] = $this->getApiMethodName();
         $params["version"] = $this->version;
         $params["format"] = $this->format;
         $params["sign_type"] = $this->sign_type;
