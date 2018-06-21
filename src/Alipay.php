@@ -2,26 +2,28 @@
 
 namespace Apay;
 
+use Apay\builder\alipay\WapBuilder;
+use Apay\builder\alipay\QueryBuilder;
+
 class Alipay
 {
 	
-	public function __construct()
-	{
+	private $commonConfig;
 
+	public function __construct($commonConfig)
+	{
+		$this->commonConfig = $commonConfig;
 	}
 	
-	public function wap()
+	public function wap($order)
 	{
-		
+		$wap = new WapBuilder($this->commonConfig);
+		return $wap->buildParams($order);
 	}
 
-	public function query()
+	public function query($order)
 	{
-
-	}
-
-	public function refund()
-	{
-
+		$query = new QueryBuilder($this->commonConfig);
+		return $query->run($order);
 	}
 }

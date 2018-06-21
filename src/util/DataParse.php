@@ -1,34 +1,10 @@
 <?php 
 
-namespace Apay\util\DataParse;
+namespace Apay\util;
 
 
 class DataParse
 {
-	
-	/**
-	 * 微信签名
-	 */
-	public function MakeSign($values)
-	{
-		$string = $this->ToUrlParams($values);
-		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=".WxPayConfig::KEY;
-		//签名步骤三：MD5加密
-		$string = md5($string);
-		//签名步骤四：所有字符转为大写
-		$result = strtoupper($string);
-		return $result;
-	}
-
-	/**
-	 * 阿里云签名
-	 */
-	public function generateSign($values, $sign_type = "RSA2")
-	{
-		return $this->sign($this->ToUrlParams($values), $sign_type);
-	}
-
 	/**
 	 * 输出xml字符
 	 */
@@ -68,60 +44,55 @@ class DataParse
 		return $values;
 	}
 	
-	/**
-	 * 格式化参数格式化成url参数
-	 */
-	public function ToUrlParams($values)
+	public function ToUrlParams($params)
 	{
 		$buff = "";
-		$values = ksort($values);
-		foreach ($values as $k => $v)
+		ksort($params);
+		foreach ($params as $k => $v)
 		{
-			if (false === $this->checkEmpty($v) && "@" != substr($v, 0, 1)) {
-				if($k != "sign" && $v != "" && !is_array($v)){
-					$buff .= $k . "=" . $v . "&";
-				}
+			if(!empty($v) && "@" != substr($v, 0, 1)){
+				$v = self::characet($v, 'utf-8');
+				$buff .= $k . "=" . $v . "&";
 			}
-			
 		}
 		
 		$buff = trim($buff, "&");
 		return $buff;
 	}
 
-	/**
-	 * 检测是否为空
-	 */
-	public function checkEmpty($value) {
-		if (!isset($value))
-			return true;
-		if ($value === null)
-			return true;
-		if (trim($value) === "")
-			return true;
-
-		return false;
-	}
-	
-	/**
-	 * RSA加密
-	 */
-	protected function sign($params, $sign_type = "RSA2", $public_key)
+	public function ToUrlencodeParams($params)
 	{
-		$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
-			wordwrap($public_key, 64, "\n", true) .
-			"\n-----END RSA PRIVATE KEY-----";
-
-		($res) or die('您使用的私钥格式错误，请检查RSA私钥配置'); 
-
-		if ("RSA2" == $sign_type) {
-			openssl_sign($params, $sign, $res, OPENSSL_ALGO_SHA256);
-		} else {
-			openssl_sign($params, $sign, $res);
+		$buff = "";
+		ksort($params);
+		foreach ($params as $k => $v)
+		{
+			if(!empty($v) && "@" != substr($v, 0, 1)){
+				$v = self::characet($v, 'utf-8');
+				$buff .= $k . "=" . urlencode($v) . "&";
+			}
 		}
 
-		$sign = base64_encode($sign);
-		return $sign;
+		$buff = trim($buff, "&");
+		return $buff;
+	}
+
+	private function characet($data, $targetCharset) {
+		
+		if (!empty($data)) {
+			$data = mb_convert_encoding($data, $targetCharset, $targetCharset);
+		}
+
+		return $data;
+	}
+
+	public static function getNonceStr($length = 32) 
+	{
+		$chars = "abcdefghijklmnopqrstuvwxyz0123456789";  
+		$str ="";
+		for ( $i = 0; $i < $length; $i++ )  {  
+			$str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);  
+		} 
+		return $str;
 	}
 
 }
