@@ -5,30 +5,6 @@ namespace Apay\util\DataParse;
 
 class DataParse
 {
-	
-	/**
-	 * 微信签名
-	 */
-	public function MakeSign($values)
-	{
-		$string = $this->ToUrlParams($values);
-		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=".WxPayConfig::KEY;
-		//签名步骤三：MD5加密
-		$string = md5($string);
-		//签名步骤四：所有字符转为大写
-		$result = strtoupper($string);
-		return $result;
-	}
-
-	/**
-	 * 阿里云签名
-	 */
-	public function generateSign($values, $sign_type = "RSA2")
-	{
-		return $this->sign($this->ToUrlParams($values), $sign_type);
-	}
-
 	/**
 	 * 输出xml字符
 	 */
@@ -88,40 +64,4 @@ class DataParse
 		$buff = trim($buff, "&");
 		return $buff;
 	}
-
-	/**
-	 * 检测是否为空
-	 */
-	public function checkEmpty($value) {
-		if (!isset($value))
-			return true;
-		if ($value === null)
-			return true;
-		if (trim($value) === "")
-			return true;
-
-		return false;
-	}
-	
-	/**
-	 * RSA加密
-	 */
-	protected function sign($params, $sign_type = "RSA2", $public_key)
-	{
-		$res = "-----BEGIN RSA PRIVATE KEY-----\n" .
-			wordwrap($public_key, 64, "\n", true) .
-			"\n-----END RSA PRIVATE KEY-----";
-
-		($res) or die('您使用的私钥格式错误，请检查RSA私钥配置'); 
-
-		if ("RSA2" == $sign_type) {
-			openssl_sign($params, $sign, $res, OPENSSL_ALGO_SHA256);
-		} else {
-			openssl_sign($params, $sign, $res);
-		}
-
-		$sign = base64_encode($sign);
-		return $sign;
-	}
-
 }

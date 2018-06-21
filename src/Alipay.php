@@ -5,14 +5,17 @@ namespace Apay;
 class Alipay
 {
 	
-	public function __construct()
-	{
+	private $commonConfig;
 
+	public function __construct($commonConfig)
+	{
+		$this->commonConfig = $commonConfig;
 	}
 	
-	public function wap()
+	public function wap($order)
 	{
-		
+		$wap = new WapBuilder($this->commonConfig);
+		return $wap->buildParams($order);
 	}
 
 	public function query()
@@ -24,4 +27,5 @@ class Alipay
 	{
 
 	}
+
 }
