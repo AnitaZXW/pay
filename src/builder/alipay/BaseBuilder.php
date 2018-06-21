@@ -1,10 +1,10 @@
 <?php
 
-namespace Apay\alipay\request;
+namespace Apay\builder\alipay;
 
 use Apay\util\Curl;
 
-class Common {
+class BaseBuilder {
 
 	public $app_id;
 

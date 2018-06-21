@@ -10,19 +10,7 @@ class WxpayComponents
 	
 	public static function unifiedOrder($inputObj, $timeOut = 6)
 	{
-		$url = "https://api.mch.weixin.qq.com/pay/unifiedorder";	
-		//关联参数
-		if($inputObj->GetTrade_type() == "JSAPI" && !$inputObj->IsOpenidSet()){
-			throw new WxPayException("统一支付接口中，缺少必填参数openid！trade_type为JSAPI时，openid为必填参数！");
-		}
-		if($inputObj->GetTrade_type() == "NATIVE" && !$inputObj->IsProduct_idSet()){
-			throw new WxPayException("统一支付接口中，缺少必填参数product_id！trade_type为JSAPI时，product_id为必填参数！");
-		}
-		
-		//异步通知url未设置，则使用配置文件中的url
-		if(!$inputObj->IsNotify_urlSet()){
-			$inputObj->SetNotify_url(WxPayConfig::NOTIFY_URL);//异步通知url
-		}
+		$url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 		
 		$inputObj->SetAppid($this->config['appid']);//公众账号ID
 		$inputObj->SetMch_id($this->config['mch_id']);//商户号

@@ -4,7 +4,6 @@ namespace Apay\wxpay\request;
 
 class WapPay extends WxPayDataBase
 {	
-	public $gate_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 	/**
 	* 设置商品或支付单简要描述
 	* @param string $value 
