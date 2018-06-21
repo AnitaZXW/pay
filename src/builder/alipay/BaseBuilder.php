@@ -68,8 +68,8 @@ class BaseBuilder
 			'charset' => $this->charset,
 			'timestamp' => date('Y-m-d H:i:s'),
 			'sign_type' => $this->sign_type,
-			// 'return_url' => $this->return_url,
-			// 'notify_url' => $this->app_id,
+			'return_url' => $this->return_url,
+			'notify_url' => $this->app_id,
 			'version' => $this->version,
 		];
 		
