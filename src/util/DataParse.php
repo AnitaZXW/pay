@@ -1,6 +1,6 @@
 <?php 
 
-namespace Apay\util\DataParse;
+namespace Apay\util;
 
 
 class DataParse
@@ -44,24 +44,45 @@ class DataParse
 		return $values;
 	}
 	
-	/**
-	 * 格式化参数格式化成url参数
-	 */
-	public function ToUrlParams($values)
+	public function ToUrlParams($params)
 	{
 		$buff = "";
-		$values = ksort($values);
-		foreach ($values as $k => $v)
+		ksort($params);
+		foreach ($params as $k => $v)
 		{
-			if (false === $this->checkEmpty($v) && "@" != substr($v, 0, 1)) {
-				if($k != "sign" && $v != "" && !is_array($v)){
-					$buff .= $k . "=" . $v . "&";
-				}
+			if(!empty($v) && "@" != substr($v, 0, 1)){
+				$v = self::characet($v, 'utf-8');
+				$buff .= $k . "=" . $v . "&";
 			}
-			
 		}
 		
 		$buff = trim($buff, "&");
 		return $buff;
 	}
+
+	public function ToUrlencodeParams($params)
+	{
+		$buff = "";
+		ksort($params);
+		foreach ($params as $k => $v)
+		{
+			if(!empty($v) && "@" != substr($v, 0, 1)){
+				$v = self::characet($v, 'utf-8');
+				$buff .= $k . "=" . urlencode($v) . "&";
+			}
+		}
+
+		$buff = trim($buff, "&");
+		return $buff;
+	}
+
+	private function characet($data, $targetCharset) {
+		
+		if (!empty($data)) {
+			$data = mb_convert_encoding($data, $targetCharset, $targetCharset);
+		}
+
+		return $data;
+	}
+
 }

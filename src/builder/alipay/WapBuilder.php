@@ -3,13 +3,13 @@
 namespace Apay\builder\alipay;
 
 use Apay\util\DataParse;
-use Apay\builder\BaseBuilder;
+use Apay\builder\alipay\BaseBuilder;
 
-class WapPay extends BaseBuilder
+class WapBuilder extends BaseBuilder
 {
     public function __construct($commonConfig)
     {
-        parent::construct($commonConfig);
+        parent::__construct($commonConfig);
     }
 
     public function getApiMethodName()

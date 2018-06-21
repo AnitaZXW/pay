@@ -2,6 +2,9 @@
 
 namespace Apay;
 
+use Apay\builder\alipay\WapBuilder;
+use Apay\builder\alipay\QueryBuilder;
+
 class Alipay
 {
 	
@@ -18,9 +21,10 @@ class Alipay
 		return $wap->buildParams($order);
 	}
 
-	public function query()
+	public function query($order)
 	{
-
+		$query = new QueryBuilder($this->commonConfig);
+		return $query->run($order);
 	}
 
 	public function refund()

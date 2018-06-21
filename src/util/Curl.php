@@ -1,6 +1,6 @@
 <?php 
 
-namespace Apay\util\Curl;
+namespace Apay\util;
 
 class Curl
 {
@@ -32,7 +32,7 @@ class Curl
 		}
 	}
 
-	public static function curlGet()
+	public static function curlGet($url)
 	{
 		$ch = curl_init();
 
@@ -40,17 +40,14 @@ class Curl
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-
-		$response = curl_exec($curl);
+		$response = curl_exec($ch);
 		if ($response) {
 			curl_close($ch);
 			return $response;
 		} else {
 			$error = curl_error($ch);
-			//将error写入log
 			curl_close($ch);
 			return false;
 		}

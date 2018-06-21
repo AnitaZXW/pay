@@ -2,9 +2,9 @@
 
 namespace Apay\builder\alipay;
 
-use Apay\builder\BaseBuilder;
+use Apay\builder\alipay\BaseBuilder;
 
-class Query extends BaseBuilder
+class QueryBuilder extends BaseBuilder
 {
     public function getApiMethodName()
     {
