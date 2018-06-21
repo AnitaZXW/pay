@@ -4,6 +4,7 @@ namespace Apay\builder\alipay;
 
 use Apay\util\Curl;
 
+
 class BaseBuilder {
 
 	public $app_id;
