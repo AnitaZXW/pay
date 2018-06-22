@@ -59,5 +59,4 @@ class BaseBuilder
 		$urlParams['sign'] = $this->MakeSign($urlParams);
 		return $urlParams;
 	}
-	
 }
