@@ -69,7 +69,7 @@ class BaseBuilder
 			'timestamp' => date('Y-m-d H:i:s'),
 			'sign_type' => $this->sign_type,
 			'return_url' => $this->return_url,
-			'notify_url' => $this->app_id,
+			'notify_url' => $this->notify_url,
 			'version' => $this->version,
 		];
 		
