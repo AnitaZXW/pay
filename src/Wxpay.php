@@ -20,4 +20,3 @@ class Wxpay
 		$h5->buildParams($order);
 	}
 }
-

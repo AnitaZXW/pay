@@ -5,6 +5,7 @@ namespace Apay\builder\alipay;
 use Apay\util\Curl;
 use Apay\util\DataParse;
 use Apay\config\AlipayConfig;
+use Apay\util\ApayException;
 
 class BaseBuilder
 {
@@ -104,6 +105,12 @@ class BaseBuilder
 			}
 		}
 
+		$verify_result = $this->verify($response['params'], $response['sign']);
+
+		if ($verify_result) {
+			throw new ApayException('签名验证失败');
+		};
+
 		return $response['params'];
 	}
 
@@ -115,21 +122,14 @@ class BaseBuilder
 
 		($res) or die('支付宝RSA公钥错误。请检查公钥文件格式是否正确'); 
 
-		$toVerify = DataParse::ToUrlParams($data);
 		if ("RSA2" == $this->sign_type) {
-			$result = (bool)openssl_verify($toVerify, base64_decode($sign), $res, OPENSSL_ALGO_SHA256);
+			$result = (bool)openssl_verify(json_encode($data), base64_decode($sign), $res, OPENSSL_ALGO_SHA256);
 		} else {
-			$result = (bool)openssl_verify($toVerify, base64_decode($sign), $res);
-		}
-
-		if(!$this->checkEmpty($this->public_key)) {
-			//释放资源
-			openssl_free_key($res);
+			$result = (bool)openssl_verify($data, base64_decode($sign), $res);
 		}
 
 		return $result;
 	}
-
 
 	public function generateSign($params) {
 		return $this->sign(DataParse::ToUrlParams($params), $params['sign_type']);

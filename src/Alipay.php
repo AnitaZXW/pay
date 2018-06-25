@@ -26,10 +26,4 @@ class Alipay
 		$query = new QueryBuilder($this->commonConfig);
 		return $query->run($order);
 	}
-
-	public function refund()
-	{
-
-	}
-
 }
