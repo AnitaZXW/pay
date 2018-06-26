@@ -107,7 +107,7 @@ class BaseBuilder
 
 		$verify_result = $this->verify($response['params'], $response['sign']);
 
-		if ($verify_result) {
+		if (!$verify_result) {
 			throw new ApayException('签名验证失败');
 		};
 

@@ -2,7 +2,6 @@
 
 namespace Apay\builder\wxpay;
 
-use Apay\util\Common;
 use Apay\util\Curl;
 use Apay\util\DataParse;
 
@@ -49,7 +48,7 @@ class BaseBuilder
 		$urlParams = [
 			'appid' => $this->appid,
 			'mch_id' => $this->mch_id,
-			'nonce_str' => Common::getNonceStr(),
+			'nonce_str' => DataParse::getNonceStr(),
 			'time_start' => date("YmdHis"),
 			'time_expire' => date("YmdHis", time() + 600),
 			'spbill_create_ip' => Curl::getClientIp(),
